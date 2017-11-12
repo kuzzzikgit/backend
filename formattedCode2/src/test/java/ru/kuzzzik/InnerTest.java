@@ -14,15 +14,17 @@ public class InnerTest {
      * @throws Exception basic parental exception
      */
     @Test
-    public void bracketCurlOpen() throws Exception {
+    public char bracketCurlOpen() throws Exception {
 
-        InnerTest myUnit1 = new InnerTest();
 
-        char[] expectedArray = {' ', '{', '\n'};
-
-        char[] resultArray =  myUnit1.bracketCurlOpen();
-
-        assertArrayEquals(expectedArray, resultArray);
+//        char[] expectedArray = {' ', '{', '\n'};
+//
+//        char resultArray =  bracketCurlOpen();
+//
+//        assertArrayEquals(expectedArray, resultArray);
+//
+//        return expectedArray;
+        return 0;
 
     }
     /**
@@ -32,11 +34,10 @@ public class InnerTest {
      */
     @Test
     public char[] bracketCurlClose() throws Exception {
-        InnerTest myUnit2 = new InnerTest();
 
         char[] expectedArray = {'\n', '}', '\n'};
 
-        char[] resultArray =  myUnit2.bracketCurlClose();
+        char[] resultArray =  bracketCurlClose();
 
         assertArrayEquals(expectedArray, resultArray);
 
@@ -49,11 +50,10 @@ public class InnerTest {
      */
     @Test
     public char[] bracketOpen() throws Exception {
-        InnerTest myUnit3 = new InnerTest();
 
         char[] expectedArray = {' ', '(', 'i'};
 
-        char[] resultArray =  myUnit3.bracketOpen();
+        char[] resultArray =  bracketOpen();
 
         assertArrayEquals(expectedArray, resultArray);
 
@@ -66,11 +66,10 @@ public class InnerTest {
      */
     @Test
     public char[] bracketClose() throws Exception {
-        InnerTest myUnit4 = new InnerTest();
 
         char[] expectedArray = {')', ')', '\n'};
 
-        char[] resultArray =  myUnit4.bracketClose();
+        char[] resultArray =  bracketClose();
 
         assertArrayEquals(expectedArray, resultArray);
 
