@@ -1,4 +1,3 @@
-while(inputStream.hasNext() ){char symbol = inputStream.read();
-   if( symbol == ‘ ‘ ){whiteSpaceCount++;}}
-
+while( inputStream.hasNext() ){char symbol = inputStream.read();
+   if (symbol == ‘ ‘){whiteSpaceCount++;}}
 
