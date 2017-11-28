@@ -1,0 +1,17 @@
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/FormatCode.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/writer/StringWriter.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/closeable/CloseException.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/formatter/IFormatter.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/formatter/FormatterMy.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/closeable/ICloseable.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/reader/IReader.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/reader/FileReader.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/reader/ReaderException.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/writer/FileWriter.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/writer/IWriter.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/lexer/IToken.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/lexer/Lexer.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/reader/StringReader.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/io/writer/WriterException.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/formatter/FormatterException.java
+/home/kuzzzik/my_git/repo/backend/src/main/java/ru/kuzzzik/lexer/ILexer.java
