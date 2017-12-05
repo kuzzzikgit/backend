@@ -1,6 +1,10 @@
 package ru.kuzzzik.lexer;
 
-public interface ILexer extends IToken {
-    boolean hasMoreTokens();
-    String readToken();
+import ru.kuzzzik.io.reader.ReaderException;
+
+import java.io.IOException;
+
+public interface ILexer {
+    boolean hasMoreTokens() throws IOException;
+    IToken readToken() throws ReaderException;
 }

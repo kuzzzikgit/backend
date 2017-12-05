@@ -2,6 +2,7 @@ package ru.kuzzzik.io.reader;
 
 import ru.kuzzzik.io.closeable.ICloseable;
 import ru.kuzzzik.io.closeable.CloseException;
+import ru.kuzzzik.lexer.IToken;
 
 import java.io.*;
 
@@ -22,17 +23,17 @@ public class FileReader implements IReader, ICloseable {
 
     @Override
     public boolean hasChars() throws ReaderException {
-        try {
-            indexF = fReaderCode.read();
-            return (indexF != -1);
-        } catch (IOException e) {
-            throw new ReaderException("Attempting to read outside of the input stream", e);
-        }
+        return (indexF != -1);
     }
 
     @Override
     public char readChar() throws ReaderException {
-         return (char) indexF;
+        try {
+            indexF = fReaderCode.read();
+            return (char) indexF;
+        } catch (IOException e) {
+            throw new ReaderException(e);
+        }
     }
 
     @Override
@@ -43,5 +44,6 @@ public class FileReader implements IReader, ICloseable {
             throw new CloseException("Closing stream error", e);
         }
     }
+
 }
 

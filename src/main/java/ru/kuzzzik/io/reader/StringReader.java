@@ -26,12 +26,10 @@ public class StringReader implements IReader {
     @Override
     public char readChar() throws ReaderException {
         try {
-            char sr = readString.charAt(index);
             index++;
-            return sr;
+            return readString.charAt(index);
         } catch (StringIndexOutOfBoundsException e) {
             throw new ReaderException("Attempting to read outside of the string", e);
         }
     }
-
 }

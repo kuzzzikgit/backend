@@ -4,6 +4,8 @@ import ru.kuzzzik.formatter.FormatterMy;
 import ru.kuzzzik.formatter.IFormatter;
 import ru.kuzzzik.io.reader.FileReader;
 import ru.kuzzzik.io.writer.FileWriter;
+import ru.kuzzzik.lexer.ILexer;
+import ru.kuzzzik.lexer.Lexer;
 
 /**
  * Class to correct placement of brackets
@@ -20,15 +22,14 @@ public class FormatCode {
      */
 
     public static void main(String[] args) throws Exception {
-//        ILexer lexer = new Lexer(in);
+        FileReader in = new FileReader(args[0]);
+        FileWriter out = new FileWriter(args[1]);
+
+        ILexer lexer = new Lexer(in);
         IFormatter formatter = new FormatterMy();
-        try (
-                FileReader in = new FileReader(args[0]);
-                FileWriter out = new FileWriter(args[1])
-        )
         {
-            formatter.format(in, out);
-//           formatF.format(lexer, out);
+//            formatter.format(in, out);
+           formatter.format(lexer, out);
         }
     }
 }

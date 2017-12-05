@@ -1,38 +1,82 @@
 package ru.kuzzzik.lexer;
 
 import ru.kuzzzik.io.reader.IReader;
+import ru.kuzzzik.io.reader.ReaderException;
 
-public class Lexer implements ILexer{
-    public Lexer(IReader inFile) {
+import java.io.IOException;
+
+public class Lexer implements ILexer {
+//
+//    static String C_OPEN_BRACKETS_BEF = "^[ ][{]";
+//    static String C_BRACKETS_AFT = "[{|}]^\n";
+//    static String C_CLOSE_BRACKETS_BEF = "^\n[}]";
+//
+//    public static enum Type {
+//        SEMICOLON(";"), CPACE("    "), NEWLINE("\n");
+//
+//        public final String pattern;
+//
+//        private Type(String pattern) {
+//            this.pattern = pattern;
+//        }
+//    }
+//    public static class Token {
+//        public final Type tok;
+//        public final String cha;
+//        public Token(Type tok, String cha) {
+//            this.tok = tok;
+//            this.cha = cha;
+//        }
+//        public String toString() {
+//            if(tok == Type.) {
+//                return ;
+//            }
+//            return tok.toString();
+//        }
+//    }
+
+    private IReader reader;
+
+    public Lexer(IReader reader) {
+        this.reader = reader;
     }
 
     @Override
-    public boolean hasMoreTokens() {
+    public boolean hasMoreTokens() throws IOException {
+        try {
+            return reader.hasChars();
+        } catch (ReaderException ignored) {
+
+        }
         return false;
     }
 
     @Override
-    public String readToken() {
-        return null;
+    public IToken readToken() throws ReaderException {
+        String nameLex = null;
+        while (reader.hasChars()) {
+            char c = reader.readChar();
+            switch (c) {
+                case '{': nameLex = "openCurlBracket"; break;
+                case '}': nameLex = "closeCurlBracket"; break;
+                case ' ': nameLex = "space"; break;
+                case '\n': nameLex = "newLine"; break;
+                default: nameLex = "noFormat"; break;
+            }
+//            if (c == '{') {
+//                nameLex = "openCurlBracket";
+//            }
+//            if (c == '}') {
+//                nameLex = "closeCurlBracket";
+//            }
+//            if (c == ' ') {
+//                nameLex = "space";
+//            }
+//            if (c == '\n') {
+//                nameLex = "newLine";
+//            }
+            return new Token(nameLex, Character.toString(c));
+        }
+        return new Token("space", " ");
     }
-    
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public String getLexeme() {
-        return null;
-    }
-//    public IToken readToken() {
-//        while (readChar.hasMoreChars()) {
-//            char c = readChar.readChar();
-//            // append character to current lexeme
-//            // OR
-//            return newToken();
-//        }
-//        return newToken();
-//    }
-    
 }
