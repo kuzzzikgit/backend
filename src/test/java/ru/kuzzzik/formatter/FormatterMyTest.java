@@ -22,11 +22,11 @@ public class FormatterMyTest {
 
     @Test
     public void testFormatS1() throws Exception {
-        IReader in = new StringReader("a{b");
+        IReader in = new StringReader("ab{c");
         IWriter out = new StringWriter();
         ILexer lexer = new Lexer(in);
         formatter.format(lexer, out);
-        assertEquals("a {\nb", out.toString());
+        assertEquals("ab {\nc", out.toString());
     }
 
     @Test
@@ -40,19 +40,10 @@ public class FormatterMyTest {
 
     @Test
     public void testFormatS3() throws Exception {
-        IReader in = new StringReader("a {b");
+        IReader in = new StringReader("a;b");
         IWriter out = new StringWriter();
         ILexer lexer = new Lexer(in);
         formatter.format(lexer, out);
-        assertEquals("a {\nb", out.toString());
-    }
-
-    @Test
-    public void testFormatS4() throws Exception {
-        IReader in = new StringReader("a{\nb");
-        IWriter out = new StringWriter();
-        ILexer lexer = new Lexer(in);
-        formatter.format(lexer, out);
-        assertEquals("a {\nb", out.toString());
+        assertEquals("a;\nb", out.toString());
     }
 }

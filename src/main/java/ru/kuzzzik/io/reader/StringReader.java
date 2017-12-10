@@ -2,7 +2,7 @@ package ru.kuzzzik.io.reader;
 
 public class StringReader implements IReader {
     private String readString;
-    private int index = 0;
+    private int index = -1;
 
     public StringReader(String readString) throws ReaderException {
       try {
@@ -16,7 +16,7 @@ public class StringReader implements IReader {
     public boolean hasChars() throws ReaderException {
         boolean charsS;
         try {
-            charsS = index < readString.length();
+            charsS = index < readString.length() -1;
         } catch (Exception e) {
             throw new ReaderException("Some reading string error", e);
         }

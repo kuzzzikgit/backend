@@ -45,8 +45,8 @@ public class Lexer implements ILexer {
     public boolean hasMoreTokens() throws IOException {
         try {
             return reader.hasChars();
-        } catch (ReaderException ignored) {
-
+        } catch (ReaderException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -54,29 +54,21 @@ public class Lexer implements ILexer {
     @Override
     public IToken readToken() throws ReaderException {
         String nameLex = null;
+        char c = 0;
         while (reader.hasChars()) {
-            char c = reader.readChar();
+            c = reader.readChar();
             switch (c) {
                 case '{': nameLex = "openCurlBracket"; break;
                 case '}': nameLex = "closeCurlBracket"; break;
                 case ' ': nameLex = "space"; break;
                 case '\n': nameLex = "newLine"; break;
-                default: nameLex = "noFormat"; break;
+                case ';': nameLex = "semicilone"; break;
+                default: nameLex = "noFormat";
             }
-//            if (c == '{') {
-//                nameLex = "openCurlBracket";
-//            }
-//            if (c == '}') {
-//                nameLex = "closeCurlBracket";
-//            }
-//            if (c == ' ') {
-//                nameLex = "space";
-//            }
-//            if (c == '\n') {
-//                nameLex = "newLine";
-//            }
-            return new Token(nameLex, Character.toString(c));
+            if (!nameLex.equals(null)) {
+                break;
+            }
         }
-        return new Token("space", " ");
+        return new Token(nameLex, Character.toString(c));
     }
 }

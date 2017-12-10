@@ -12,47 +12,118 @@ public class FormatterMy implements IFormatter{
     public FormatterMy() {
     }
 
+    private StringBuilder bufNameLex = new StringBuilder();
+    private StringBuilder bufLexeme = new StringBuilder();
+
+    private String beforeNameLex = bufNameLex.toString();
+    private String beforeLexeme = bufLexeme.toString();
+
+    private void cleadBuilder () {
+        bufNameLex.setLength(0);
+        bufLexeme.setLength(0);
+    }
+
+    private StringBuilder bufNameNewLineSpace = new StringBuilder();
+    private StringBuilder bufLexemeNewLineSpace = new StringBuilder();
+
+    private String bufnameNLS = bufNameNewLineSpace.toString();
+    private String bufLexemeNLS = bufLexemeNewLineSpace.toString();
+
     public void format(ILexer in, IWriter out) throws FormatterException {
         try {
             IToken token;
             while (in.hasMoreTokens()) {
                 token = in.readToken();
                 String lexeme = token.getLexeme();
+                String nameLex = token.getName();
 
-                StringBuilder lexBuffer = new StringBuilder(lexeme);
-                for (int p = 0; p < lexBuffer.length(); p++) {
-
-                    if (lexBuffer.equals("openCurlBracket")) {
-                        --p;
-                        if (!lexBuffer.equals(" ")) {
-                            p++;
-                            lexBuffer.insert(p, lexeme += ' ');// добавляет пробел перед {
-                            p += 2;
-                        } else {
-                            p += 2;
-                        }
-
-                         if (!lexBuffer.equals("newLine")) {
-                             lexBuffer.insert(p, lexeme += '\n');// добавляет перенос после {
-                         }
-                    }
-
-                    if (!lexBuffer.equals("closeCurlBracket")) {
-                         --p;
-                         if (!lexBuffer.equals("newLine")) {
-                             p++;
-                             lexBuffer.insert(p, lexeme += '\n');// добавляет перенос перед }
-                             p += 2;
+                if (nameLex.equals("openCurlBracket")) {
+                    if (beforeNameLex.equals("space")) {
+                        lexeme = beforeLexeme + lexeme;
                     } else {
-                         p += 2;
+                        lexeme = beforeLexeme + ' ' + lexeme;
                     }
-
-                    if (!lexBuffer.equals("newLine")) {
-                        lexBuffer.insert(p, lexeme += '\n');// добавляет перенос после }
-                        }
-                    }
-                    out.writeChar(lexBuffer.charAt(p));
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    bufNameLex.append("openCurlBracket");
+                    bufLexeme.append("{");
+                    continue;
                 }
+
+                if (nameLex.equals("closeCurlBracket")) {
+                    if (beforeNameLex.equals("newLine")) {
+                        lexeme = beforeLexeme + lexeme;
+                    } else {
+                        lexeme = beforeLexeme + '\n' + lexeme;
+                    }
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    bufNameLex.append("closeCurlBracket");
+                    bufLexeme.append("}");
+                    continue;
+                }
+
+                if (nameLex.equals("semicilone")) {
+                    if (!beforeNameLex.equals("space")) {
+                        lexeme = beforeLexeme + lexeme;
+                    }
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    bufNameLex.append("semicilone");
+                    bufLexeme.append(";");
+                    continue;
+                }
+
+                if (nameLex.equals("newLine")) {
+                    switch (beforeNameLex) {
+                        case "openCurlBracket": lexeme = beforeLexeme + lexeme; break;
+                        case "closeCurlBracket": lexeme = beforeLexeme + lexeme; break;
+                        case "semicilone": lexeme = beforeLexeme + lexeme; break;
+                        default: lexeme = beforeLexeme;
+                    }
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    bufNameLex.append("newLine");
+                    bufLexeme.append('\n');
+                    continue;
+                }
+
+                if (nameLex.equals("space")) {
+                    switch (beforeNameLex) {
+                        case "newLine": lexeme = beforeNameLex + lexeme + "   "; bufNameNewLineSpace.append("newLineSpace"); bufLexemeNewLineSpace.append("'\n'    "); break;
+                        case "space": lexeme = " "; break;
+                        default: lexeme = beforeLexeme + lexeme;
+                    }
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    bufNameLex.append("space");
+                    bufLexeme.append(" ");
+                    if (bufnameNLS.equals("newLineSpace")) {
+                        lexeme = bufLexemeNLS;
+                        lexing(out, lexeme);
+                    }
+                    bufNameNewLineSpace.setLength(0);
+                    bufLexemeNewLineSpace.setLength(0);
+                    continue;
+                }
+
+                if (!nameLex.equals("newLine")) {
+                    String afterNameLex = bufNameLex.toString();
+                    switch (afterNameLex) {
+                        case "openCurlBracket": lexeme = '\n' + lexeme; break;
+                        case "closeCurlBracket": lexeme = '\n' + lexeme; break;
+                        case "semicilone": lexeme = '\n' + lexeme; break;
+                    }
+                    lexing(out, lexeme);
+                    cleadBuilder ();
+                    continue;
+                }
+
+//                if (nameLex.equals("noFormat")) {
+//                    lexing(out, lexeme);
+//                    continue;
+//                }
+
             }
         } catch (ReaderException e) {
             throw new FormatterException("Reading error", e);
@@ -61,87 +132,16 @@ public class FormatterMy implements IFormatter{
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        List<Character> listArray = new ArrayList<>();
-//
-//        try {
-//            while (in.hasChars()) {
-//                listArray.add(in.readChar());
-//            }
-//        } catch (ReaderException e) {
-//            e.printStackTrace();
-//        }
-//
-//        for (int p = 0; p < listArray.size(); p++) {
-//
-//            if (listArray.get(p) == '{') {
-//                --p;
-//                if (listArray.get(p) != ' ') {
-//                    p++;
-//                    listArray.add(p, ' ');// добавляет пробел перед {
-//                    p += 2;
-//                } else {
-//                    p += 2;
-//                }
-//
-//                if (listArray.get(p) != '\n') {
-//                    listArray.add(p, '\n');// добавляет перенос после {
-//                }
-//            }
-//
-//            if (listArray.get(p) == '}') {
-//                --p;
-//                if (listArray.get(p) != '\n') {
-//                    p++;
-//                    listArray.add(p, '\n');// добавляет перенос перед }
-//                    p += 2;
-//                } else {
-//                    p += 2;
-//                }
-//
-//                if (listArray.get(p) != '\n') {
-//                    listArray.add(p, '\n');// добавляет перенос после }
-//                }
-//            }
-//
-//            if (listArray.get(p) == '(') {
-//                --p;
-//                if (listArray.get(p) != ' ') {
-//                    p++;
-//                    listArray.add(p, ' ');// добавляет пробел перед (
-//                    p += 2;
-//                } else {
-//                    p += 2;
-//                }
-//
-//                if (listArray.get(p) == ' ') {// убирает пробел после (
-//                    listArray.remove(p);
-//                }
-//            }
-//
-//            if (listArray.get(p) == ')') {
-//                --p;
-//                if (listArray.get(p) == ' ') {// убирает пробел перед (
-//                    listArray.remove(p);
-//
-//                } else {
-//                    p += 1;
-//                }
-//                p++;
-//                if (listArray.get(p) != ' ') {
-//                    listArray.add(p, ' ');// добавляет пробел после (
-//                }
-//            }
-//        }
-//        for (Character aListArray : listArray) {
-//            try {
-//                out.writeChar(aListArray);
-//            } catch (WriterException e) {
-//                throw new FormatterException("Writing error", e);
-//            }
-//        }
-//    }
     }
-}
+
+        private void lexing(IWriter writer, String lexeme) throws WriterException {
+            for (int i = 0; i < lexeme.length(); i++) {
+                char lex = lexeme.charAt(i);
+                writer.writeChar(lex);
+            }
+        }
+    }
+
 
 
 

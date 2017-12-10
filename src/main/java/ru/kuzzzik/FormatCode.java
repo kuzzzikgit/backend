@@ -28,7 +28,6 @@ public class FormatCode {
         ILexer lexer = new Lexer(in);
         IFormatter formatter = new FormatterMy();
         {
-//            formatter.format(in, out);
            formatter.format(lexer, out);
         }
     }
