@@ -24,7 +24,7 @@ public class FormatterMy implements IFormatter{
 
                     if (lexBuffer.equals("openCurlBracket")) {
                         --p;
-                        if (!lexBuffer.equals("space")) {
+                        if (!lexBuffer.equals(" ")) {
                             p++;
                             lexBuffer.insert(p, lexeme += ' ');// добавляет пробел перед {
                             p += 2;
